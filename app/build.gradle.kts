@@ -76,4 +76,7 @@ dependencies {
     implementation ("androidx.compose.material3:material3:1.3.2")
 
     implementation ("androidx.navigation:navigation-compose:2.9.2")
+
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
+    implementation ("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 }
