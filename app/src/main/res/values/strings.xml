@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CitiesApp</string>
+    <string name="navigation_item_main">Города</string>
+    <string name="navigation_item_lists">Списки</string>
+
 </resources>

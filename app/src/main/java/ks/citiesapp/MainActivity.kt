@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ks.citiesapp.ui.screen.main.MainScreen
 import ks.citiesapp.ui.theme.CitiesAppTheme
 
 
@@ -25,33 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CitiesAppTheme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    bottomBar = {
-                        NavigationBar {
-                            NavigationBarItem(
-                                selected = true,
-                                onClick = {},
-                                icon = {
-                                    Icon(Icons.Filled.Menu, contentDescription = null)
-                                }
-                            )
-                            NavigationBarItem(
-                                selected = false,
-                                onClick = {},
-                                icon = {
-                                    Icon(Icons.Filled.Menu, contentDescription = null)
-                                }
-                            )
-                        }
-                    }
-                ) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen()
             }
         }
     }
