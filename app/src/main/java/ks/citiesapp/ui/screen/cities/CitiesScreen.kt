@@ -1,5 +1,6 @@
 package ks.citiesapp.ui.screen.cities
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +12,9 @@ import androidx.compose.ui.unit.dp
 import ks.citiesapp.domain.City
 import org.burnoutcrew.reorderable.*
 
+
+
+@OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
 fun CitiesScreen() {
@@ -44,6 +48,8 @@ fun CitiesScreen() {
                 CityItem(
                     city = city,
                     modifier = Modifier
+                        .animateItemPlacement()
+                        .padding(vertical = 4.dp)
                 )
             }
         }
