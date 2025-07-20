@@ -3,13 +3,16 @@ package ks.citiesapp.ui.screen.main
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
@@ -27,6 +30,12 @@ fun MainScreen() {
         NavigationItem.Lists
     )
 
+    val defaultCircleColor = MaterialTheme.colorScheme.primary
+
+    //var circleColor by remember { mutableStateOf(defaultCircleColor) }
+    val initialColor = MaterialTheme.colorScheme.primary
+    var circleColor by remember { mutableStateOf(initialColor) }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -34,30 +43,12 @@ fun MainScreen() {
             NavigationBar() {
                 val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
 
-//                val selectedItemPosition = remember {
-//                    mutableStateOf(0)
-//                }
-
-//                items.forEachIndexed() { index, item ->
-//                    NavigationBarItem(
-//                        selected = selectedItemPosition.value == index,
-//                        onClick = { selectedItemPosition.value = index},
-//                        icon = {
-//                            Icon(item.icon, contentDescription = null)
-//                        },
-//                        label = {
-//                            Text(text = stringResource(id = item.titleResId))
-//                        },
-//                    )
-//                }
-
                 items.forEach { item ->
                     NavigationBarItem(
                         selected = currentDestination == item.route,
                         onClick = {
                             if (currentDestination != item.route) {
                                 navController.navigate(item.route) {
-                                    // Чистим стек до старта, чтобы избежать дублирования
                                     popUpTo(navController.graph.startDestinationId) {
                                         saveState = true
                                     }
@@ -67,7 +58,11 @@ fun MainScreen() {
                             }
                         },
                         icon = {
-                            Icon(imageVector = item.icon, contentDescription = null)
+                            if (item == NavigationItem.Lists) {
+                                CircleIcon(color = circleColor, size = 24)
+                            } else {
+                                Icon(imageVector = item.icon, contentDescription = null)
+                            }
                         },
                         label = {
                             Text(text = stringResource(id = item.titleResId))
