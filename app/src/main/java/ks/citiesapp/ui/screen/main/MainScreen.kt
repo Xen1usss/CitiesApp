@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ks.citiesapp.ui.screen.cities.CitiesScreen
+import ks.citiesapp.ui.screen.lists.ListsScreen
 
 @Composable
 fun MainScreen() {
@@ -32,7 +33,6 @@ fun MainScreen() {
 
     val defaultCircleColor = MaterialTheme.colorScheme.primary
 
-    //var circleColor by remember { mutableStateOf(defaultCircleColor) }
     val initialColor = MaterialTheme.colorScheme.primary
     var circleColor by remember { mutableStateOf(initialColor) }
 
@@ -82,11 +82,7 @@ fun MainScreen() {
                 CitiesScreen()
             }
             composable(NavigationItem.Lists.route) {
-                // Пока ничего не делаем
-                // Можно оставить пустым или вставить заглушку:
-                // Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                //     Text("Раздел в разработке")
-                // }
+                ListsScreen()
             }
         }
 
