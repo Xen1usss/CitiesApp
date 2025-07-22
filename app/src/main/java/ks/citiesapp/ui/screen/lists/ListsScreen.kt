@@ -41,6 +41,12 @@ fun ListsScreen(
         sheetState.show()
     }
 
+    LaunchedEffect(sheetState.isVisible) {
+        if (!sheetState.isVisible && uiState.selectedList != null) {
+            navController.navigate("cities")
+        }
+    }
+
     if (sheetState.currentValue != SheetValue.Hidden) {
         ListsBottomSheet(
             lists = uiState.lists,
