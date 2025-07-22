@@ -26,10 +26,27 @@ class ListsViewModel(private val dao: CityListDao) : ViewModel() {
         viewModelScope.launch {
             dao.getAll().collect { entities ->
                 val lists = entities.map { it.toDomain() }
-                _uiState.update { it.copy(lists = lists, selectedList = lists.firstOrNull()) }
+                _uiState.update { currentState ->
+                    val newSelectedIndex = if (currentState.selectedListIndex in lists.indices)
+                        currentState.selectedListIndex else 0
+                    currentState.copy(
+                        lists = lists,
+                        selectedListIndex = newSelectedIndex,
+                        selectedList = lists.getOrNull(newSelectedIndex)
+                    )
+                }
             }
         }
     }
+
+//    private fun loadLists() {
+//        viewModelScope.launch {
+//            dao.getAll().collect { entities ->
+//                val lists = entities.map { it.toDomain() }
+//                _uiState.update { it.copy(lists = lists, selectedList = lists.firstOrNull()) }
+//            }
+//        }
+//    }
 
     fun createNewList(name: String, fullName: String, color: Int, cities: List<String>) {
         viewModelScope.launch {
