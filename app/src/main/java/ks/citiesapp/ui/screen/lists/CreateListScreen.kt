@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -48,7 +49,12 @@ fun CreateListScreen(
     var selectedColor by remember { mutableStateOf(Color.Green.toArgb()) }
 
     val colors = listOf(
-        Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta, Color.Cyan
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.secondary,
+        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.error,
+        MaterialTheme.colorScheme.surfaceVariant,
+        MaterialTheme.colorScheme.outline
     )
 
     AlertDialog(
