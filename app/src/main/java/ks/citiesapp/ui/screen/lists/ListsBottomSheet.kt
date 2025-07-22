@@ -43,7 +43,6 @@ fun ListsBottomSheet(
                 onListSelected = onListSelected,
                 onAddNewList = onAddNewList,
                 onListLongPressed = onListLongPressed
-                //onListLongPressed = { index -> viewModel.deleteList(index) }
             )
         }
     }

@@ -1,7 +1,3 @@
-package ks.citiesapp.ui.screen.cities
-
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,22 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ks.citiesapp.domain.City
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CityItem(
-    city: City,
-    modifier: Modifier = Modifier,
-    onLongPress: (() -> Unit)? = null
-) {
+fun CityItem(city: City, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = {},
-                onLongClick = {
-                    onLongPress?.invoke()
-                }
-            )
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

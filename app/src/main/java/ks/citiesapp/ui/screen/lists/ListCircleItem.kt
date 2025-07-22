@@ -3,7 +3,6 @@ package ks.citiesapp.ui.screen.lists
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -42,7 +41,6 @@ fun ListCircleItem(
             .clip(CircleShape)
             .background(Color(list.color))
             .border(borderWidth, Color.White, CircleShape)
-//            .clickable(onClick = onClick),
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
