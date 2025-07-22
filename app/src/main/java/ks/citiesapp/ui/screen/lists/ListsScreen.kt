@@ -32,8 +32,6 @@ fun ListsScreen(
     val repository = CitiesRepository()
     val allCities = repository.getAllCities()
 
-    var showBottomSheet by remember { mutableStateOf(true) }
-
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false,
         confirmValueChange = { true }
@@ -43,23 +41,16 @@ fun ListsScreen(
         sheetState.show()
     }
 
-    LaunchedEffect(sheetState.currentValue) {
-        if (sheetState.currentValue == SheetValue.Hidden) {
-            showBottomSheet = false
-        }
-    }
-
-    if (showBottomSheet) {
+    if (sheetState.currentValue != SheetValue.Hidden) {
         ListsBottomSheet(
             lists = uiState.lists,
             selectedListIndex = uiState.selectedListIndex,
-            onListSelected = {
-                viewModel.selectList(it)
-                showBottomSheet = false
+            onListSelected = { index ->
+                viewModel.selectList(index)
                 navController.navigate("cities")
             },
             onAddNewList = { showCreateDialog = true },
-            onDismissRequest = { showBottomSheet = false },
+            onDismissRequest = { },
             sheetState = sheetState
         )
     }
