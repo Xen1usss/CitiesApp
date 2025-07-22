@@ -58,6 +58,15 @@ class ListsViewModel(private val dao: CityListDao) : ViewModel() {
             state.copy(selectedListIndex = index, selectedList = list)
         }
     }
+
+    fun deleteList(index: Int) {
+        val listToDelete = _uiState.value.lists.getOrNull(index)
+        listToDelete?.let { list ->
+            viewModelScope.launch {
+                dao.deleteById(list.id)
+            }
+        }
+    }
 }
 
 data class ListsUiState(

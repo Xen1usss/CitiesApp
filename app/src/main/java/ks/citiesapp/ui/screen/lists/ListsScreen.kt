@@ -57,7 +57,9 @@ fun ListsScreen(
             },
             onAddNewList = { showCreateDialog = true },
             onDismissRequest = { },
-            sheetState = sheetState
+            sheetState = sheetState,
+            onListLongPressed = { index -> viewModel.deleteList(index) },
+            viewModel = viewModel
         )
     }
 

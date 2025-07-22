@@ -13,7 +13,6 @@ import ks.citiesapp.domain.City
 import org.burnoutcrew.reorderable.*
 
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable

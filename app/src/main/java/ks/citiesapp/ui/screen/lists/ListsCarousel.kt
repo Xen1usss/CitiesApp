@@ -19,7 +19,8 @@ fun ListsCarousel(
     lists: List<CityList>,
     selectedListIndex: Int,
     onListSelected: (Int) -> Unit,
-    onAddNewList: () -> Unit
+    onAddNewList: () -> Unit,
+    onListLongPressed: (Int) -> Unit
 ) {
 
     val circleSize = 64.dp
@@ -33,7 +34,6 @@ fun ListsCarousel(
     ) {
         itemsIndexed(lists + null) { index, listOrNull ->
             if (listOrNull == null) {
-                // Кнопка "+"
                 AddNewListCircle(onClick = onAddNewList, size = circleSize)
             } else {
                 val isSelected = index == selectedListIndex
@@ -45,6 +45,11 @@ fun ListsCarousel(
                     onClick = {
                         if (index < lists.size) {
                             onListSelected(index)
+                        }
+                    },
+                    onLongClick = {
+                        if (index < lists.size) {
+                            onListLongPressed(index)
                         }
                     }
                 )

@@ -16,12 +16,14 @@ import ks.citiesapp.domain.CityList
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListsBottomSheet(
+    viewModel: ListsViewModel,
     lists: List<CityList>,
     selectedListIndex: Int,
     onListSelected: (Int) -> Unit,
     onAddNewList: () -> Unit,
     onDismissRequest: () -> Unit,
-    sheetState: SheetState
+    sheetState: SheetState,
+    onListLongPressed: (Int) -> Unit
 ) {
 
     ModalBottomSheet(
@@ -39,7 +41,9 @@ fun ListsBottomSheet(
                 lists = lists,
                 selectedListIndex = selectedListIndex,
                 onListSelected = onListSelected,
-                onAddNewList = onAddNewList
+                onAddNewList = onAddNewList,
+                onListLongPressed = onListLongPressed
+                //onListLongPressed = { index -> viewModel.deleteList(index) }
             )
         }
     }
