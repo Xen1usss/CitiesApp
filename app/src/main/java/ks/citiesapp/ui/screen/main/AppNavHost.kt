@@ -4,11 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ks.citiesapp.data.repository.database.AppDatabase
-import androidx.navigation.NavHostController
 import ks.citiesapp.domain.City
 import ks.citiesapp.ui.screen.cities.CitiesScreen
 import ks.citiesapp.ui.screen.lists.ListsScreen
@@ -47,17 +46,12 @@ fun AppNavHost(
                     )
                 )
             }
-//        composable("cities") {
-//
-//        }
-//        composable("lists") {
-//            // Пока ничего не делаем
-//        }
         }
         composable("lists") {
             ListsScreen(
                 database = database, // ← Передаём базу
-                sharedViewModel = viewModel // ← Передаём общий ViewModel
+                sharedViewModel = viewModel, // ← Передаём общий ViewModel
+                navController = navController
             )
         }
     }

@@ -39,15 +39,6 @@ class ListsViewModel(private val dao: CityListDao) : ViewModel() {
         }
     }
 
-//    private fun loadLists() {
-//        viewModelScope.launch {
-//            dao.getAll().collect { entities ->
-//                val lists = entities.map { it.toDomain() }
-//                _uiState.update { it.copy(lists = lists, selectedList = lists.firstOrNull()) }
-//            }
-//        }
-//    }
-
     fun createNewList(name: String, fullName: String, color: Int, cities: List<String>) {
         viewModelScope.launch {
             val entity = CityListEntity(

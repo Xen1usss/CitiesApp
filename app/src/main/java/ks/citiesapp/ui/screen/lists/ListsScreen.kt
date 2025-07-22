@@ -1,6 +1,7 @@
 package ks.citiesapp.ui.screen.lists
 
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,17 +12,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import ks.citiesapp.data.CitiesRepository
 import ks.citiesapp.data.repository.database.AppDatabase
-import androidx.compose.material3.SheetValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListsScreen(
     database: AppDatabase,
     sharedViewModel: ListsViewModel? = null,
-    navController: NavController = rememberNavController()
+    navController: NavController
 ) {
 
     val viewModel = sharedViewModel ?: viewModel { ListsViewModel(database.cityListDao()) }
@@ -54,7 +53,11 @@ fun ListsScreen(
         ListsBottomSheet(
             lists = uiState.lists,
             selectedListIndex = uiState.selectedListIndex,
-            onListSelected = { viewModel.selectList(it) },
+            onListSelected = {
+                viewModel.selectList(it)
+                showBottomSheet = false
+                navController.navigate("cities")
+            },
             onAddNewList = { showCreateDialog = true },
             onDismissRequest = { showBottomSheet = false },
             sheetState = sheetState
