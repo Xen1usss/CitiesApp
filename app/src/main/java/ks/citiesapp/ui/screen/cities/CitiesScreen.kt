@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,15 +47,6 @@ fun CitiesScreen(
             .reorderable(state)
             .detectReorderAfterLongPress(state)
     ) {
-        item {
-            Text(
-                text = "Города",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-                    .padding(16.dp)
-            )
-        }
         items(citiesState, key = { it.name }) { city ->
             ReorderableItem(state, key = city.name) { isDragging ->
                 CityItem(
