@@ -22,24 +22,6 @@ fun CitiesScreen(
 ) {
     var citiesState by remember { mutableStateOf(cities.toMutableList()) }
 
-//    var cities by remember {
-//        mutableStateOf(
-//            mutableListOf(
-//                City("Париж", "III век до н.э."),
-//                City("Вена", "1147 год"),
-//                City("Берлин", "1237 год"),
-//                City("Варшава", "1321 год"),
-//                City("Милан", "1899 год")
-//            )
-//        )
-//    }
-
-//    val state = rememberReorderableLazyListState(onMove = { from, to ->
-//        cities = cities.toMutableList().apply {
-//            add(to.index, removeAt(from.index))
-//        }
-//    })
-
     val state = rememberReorderableLazyListState(onMove = { from, to ->
         citiesState = citiesState.toMutableList().apply {
             add(to.index, removeAt(from.index))
@@ -53,7 +35,7 @@ fun CitiesScreen(
             .reorderable(state)
             .detectReorderAfterLongPress(state)
     ) {
-        items(cities, key = { it.name }) { city ->
+        items(citiesState, key = { it.name }) { city ->
             ReorderableItem(state, key = city.name) { isDragging ->
                 CityItem(
                     city = city,

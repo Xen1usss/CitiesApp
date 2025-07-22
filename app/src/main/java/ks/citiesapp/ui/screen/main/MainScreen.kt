@@ -28,11 +28,9 @@ fun MainScreen(
     val viewModel: ListsViewModel = viewModel { ListsViewModel(database.cityListDao()) }
     val uiState by viewModel.uiState.collectAsState()
 
-    // Получаем текущий маршрут ДО Scaffold
     val currentDestination by navController.currentBackStackEntryAsState()
     val currentRoute = currentDestination?.destination?.route
 
-    // Цвет и имя для вкладки "Списки"
     val displayColor = uiState.selectedList?.color?.let { Color(it) }
         ?: MaterialTheme.colorScheme.primary
     val displayLabel = uiState.selectedList?.name ?: "Списки"
@@ -65,7 +63,6 @@ fun MainScreen(
             }
         }
     ) { padding ->
-        // ✅ ВАЖНО: NavHost создаёт граф навигации
         AppNavHost(
             navController = navController,
             viewModel = viewModel,

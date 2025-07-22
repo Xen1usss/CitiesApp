@@ -52,7 +52,6 @@ fun ListsCarousel(
         }
     }
 
-    // Подпись под кругами
     if (selectedListIndex < lists.size) {
         Text(
             text = lists[selectedListIndex].fullName,
