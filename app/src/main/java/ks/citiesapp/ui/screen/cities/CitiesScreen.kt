@@ -17,21 +17,31 @@ import org.burnoutcrew.reorderable.*
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
-fun CitiesScreen() {
-    var cities by remember {
-        mutableStateOf(
-            mutableListOf(
-                City("Париж", "III век до н.э."),
-                City("Вена", "1147 год"),
-                City("Берлин", "1237 год"),
-                City("Варшава", "1321 год"),
-                City("Милан", "1899 год")
-            )
-        )
-    }
+fun CitiesScreen(
+    cities: List<City> = listOf()
+) {
+    var citiesState by remember { mutableStateOf(cities.toMutableList()) }
+
+//    var cities by remember {
+//        mutableStateOf(
+//            mutableListOf(
+//                City("Париж", "III век до н.э."),
+//                City("Вена", "1147 год"),
+//                City("Берлин", "1237 год"),
+//                City("Варшава", "1321 год"),
+//                City("Милан", "1899 год")
+//            )
+//        )
+//    }
+
+//    val state = rememberReorderableLazyListState(onMove = { from, to ->
+//        cities = cities.toMutableList().apply {
+//            add(to.index, removeAt(from.index))
+//        }
+//    })
 
     val state = rememberReorderableLazyListState(onMove = { from, to ->
-        cities = cities.toMutableList().apply {
+        citiesState = citiesState.toMutableList().apply {
             add(to.index, removeAt(from.index))
         }
     })
