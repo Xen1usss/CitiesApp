@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ks.citiesapp.data.repository.database.AppDatabase
+import ks.citiesapp.data.database.AppDatabase
 import ks.citiesapp.ui.screen.lists.ListsViewModel
 
 

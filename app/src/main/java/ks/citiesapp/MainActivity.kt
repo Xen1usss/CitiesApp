@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.room.Room
-import ks.citiesapp.data.repository.database.AppDatabase
+import ks.citiesapp.data.database.AppDatabase
 import ks.citiesapp.ui.screen.main.MainScreen
 import ks.citiesapp.ui.theme.CitiesAppTheme
 

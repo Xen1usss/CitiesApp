@@ -1,8 +1,8 @@
-package ks.citiesapp.data.repository.database
+package ks.citiesapp.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ks.citiesapp.data.repository.dao.CityListDao
+import ks.citiesapp.data.database.dao.CityListDao
 import ks.citiesapp.domain.entity.CityListEntity
 
 @Database(entities = [CityListEntity::class], version = 1, exportSchema = false)

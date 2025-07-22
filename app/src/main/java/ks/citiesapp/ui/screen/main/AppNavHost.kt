@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ks.citiesapp.data.repository.database.AppDatabase
+import ks.citiesapp.data.database.AppDatabase
 import ks.citiesapp.domain.City
 import ks.citiesapp.ui.screen.cities.CitiesScreen
 import ks.citiesapp.ui.screen.lists.ListsScreen

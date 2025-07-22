@@ -28,11 +28,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ks.citiesapp.R
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CreateListScreen(
     onConfirm: (String, String, Int, List<String>) -> Unit,
@@ -56,33 +59,33 @@ fun CreateListScreen(
                     onConfirm(shortName, fullName, selectedColor, selectedCities)
                 }
             }) {
-                Text("OK")
+                Text(stringResource(R.string.button_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена")
+                Text(stringResource(R.string.button_cancel))
             }
         },
-        title = { Text("Новый список городов") },
+        title = { Text(stringResource(R.string.title_new_list)) },
         text = {
             Column {
                 OutlinedTextField(
                     value = shortName,
                     onValueChange = { shortName = it },
-                    label = { Text("Короткое имя списка") },
+                    label = { Text(stringResource(R.string.hint_short_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    label = { Text("Длинное имя списка") },
+                    label = { Text(stringResource(R.string.hint_full_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(16.dp))
 
-                Text("Выберите до 5 городов:")
+                Text(stringResource(R.string.label_select_cities))
                 LazyColumn(modifier = Modifier.height(120.dp)) {
                     items(availableCities) { city ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -104,12 +107,13 @@ fun CreateListScreen(
                 }
 
                 Spacer(Modifier.height(16.dp))
-                Text("Цвет списка:")
+                Text(stringResource(R.string.label_select_color))
                 FlowRow {
                     colors.forEach { color ->
                         Box(
                             modifier = Modifier
                                 .size(40.dp)
+                                .clip(CircleShape)
                                 .background(color)
                                 .clickable { selectedColor = color.toArgb() }
                                 .border(

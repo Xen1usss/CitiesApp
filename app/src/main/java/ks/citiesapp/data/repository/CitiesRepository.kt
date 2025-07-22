@@ -1,4 +1,4 @@
-package ks.citiesapp.data
+package ks.citiesapp.data.repository
 
 class CitiesRepository {
     fun getAllCities(): List<String> = listOf(

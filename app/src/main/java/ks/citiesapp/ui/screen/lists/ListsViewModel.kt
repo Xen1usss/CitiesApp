@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ks.citiesapp.data.repository.dao.CityListDao
+import ks.citiesapp.data.database.dao.CityListDao
 import ks.citiesapp.domain.CityList
 import ks.citiesapp.domain.entity.CityListEntity
 import ks.citiesapp.domain.entity.toDomain

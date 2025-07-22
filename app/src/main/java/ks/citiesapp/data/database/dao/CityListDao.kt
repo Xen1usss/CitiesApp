@@ -1,4 +1,4 @@
-package ks.citiesapp.data.repository.dao
+package ks.citiesapp.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -1,6 +1,18 @@
 <resources>
+
     <string name="app_name">CitiesApp</string>
+
+    <!-- Navigation -->
     <string name="navigation_item_main">Города</string>
     <string name="navigation_item_lists">Списки</string>
+
+    <!-- Dialog -->
+    <string name="title_new_list">Новый список городов</string>
+    <string name="hint_short_name">Короткое имя списка</string>
+    <string name="hint_full_name">Длинное имя списка</string>
+    <string name="label_select_cities">Выберите до 5 городов:</string>
+    <string name="label_select_color">Цвет списка</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Отмена</string>
 
 </resources>

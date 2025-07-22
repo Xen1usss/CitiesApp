@@ -12,8 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import ks.citiesapp.data.CitiesRepository
-import ks.citiesapp.data.repository.database.AppDatabase
+import ks.citiesapp.data.database.AppDatabase
+import ks.citiesapp.data.repository.CitiesRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
