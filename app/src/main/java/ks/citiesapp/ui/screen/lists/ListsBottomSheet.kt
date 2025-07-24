@@ -39,7 +39,7 @@ fun ListsBottomSheet(
         ) {
             ListsCarousel(
                 lists = lists,
-                selectedListIndex = selectedListIndex,
+                //selectedListIndex = selectedListIndex,
                 onListSelected = onListSelected,
                 onAddNewList = onAddNewList,
                 onListLongPressed = onListLongPressed

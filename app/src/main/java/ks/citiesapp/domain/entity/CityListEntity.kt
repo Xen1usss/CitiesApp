@@ -10,7 +10,7 @@ data class CityListEntity(
     val name: String,
     val fullName: String,
     val color: Int,
-    val cities: String // Будем хранить как CSV: "Париж,Берлин,Милан"
+    val cities: String
 )
 
 fun CityListEntity.toDomain(): CityList {
