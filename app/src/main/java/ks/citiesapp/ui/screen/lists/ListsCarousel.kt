@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -54,8 +53,7 @@ fun ListsCarousel(
             val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
 
 
-
-// Ищем ближайший к центру НЕ-нулевой элемент
+            // Ищем ближайший к центру НЕ-нулевой элемент
             visibleItems
                 .filter { it.index > 0 } // Пропускаем "+"
                 .minByOrNull { item ->
@@ -65,12 +63,13 @@ fun ListsCarousel(
         }
     }
 
-    // Обновляем выбранный список при прокрутке
-    LaunchedEffect(centerItemIndex) {
-        if (centerItemIndex != null && centerItemIndex!! > 0) {
-            onListSelected(centerItemIndex!! - 1)
-        }
-    }
+
+//    // Обновляем выбранный список при прокрутке
+//    LaunchedEffect(centerItemIndex) {
+//        if (centerItemIndex != null && centerItemIndex!! > 0) {
+//            onListSelected(centerItemIndex!! - 1)
+//        }
+//    }
 
     LazyRow(
         state = lazyListState,
@@ -111,6 +110,7 @@ fun ListsCarousel(
                         onClick = {
                             coroutineScope.launch {
                                 lazyListState.animateScrollToItem(index)
+                                onListSelected(index - 1)
                             }
                         },
                         onLongClick = {
