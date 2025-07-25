@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ks.citiesapp.domain.CityList
 import kotlin.math.abs
@@ -40,6 +42,29 @@ fun ListsCarousel(
     val screenWidthPx = with(density) {
         LocalConfiguration.current.screenWidthDp.dp.toPx()
     }
+
+    // Автоцентровка при остановке скролла
+    LaunchedEffect(lazyListState.isScrollInProgress) {
+        delay(200) // подождать, пока "инерция" закончится
+        if (!lazyListState.isScrollInProgress) {
+            val center = screenWidthPx / 2f
+            val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
+
+            // Игнорируем "+" по индексу 0
+            val centerItem = visibleItems
+                .filter { it.index > 0 }
+                .minByOrNull {
+                    abs((it.offset + it.size / 2) - center)
+                }
+
+            if (centerItem != null) {
+                val index = centerItem.index
+                lazyListState.animateScrollToItem(index)
+                onListSelected(index - 1)
+            }
+        }
+    }
+
 
     // Добавляем null как элемент "добавить"
     val fullList = listOf<CityList?>(null) + lists
@@ -62,14 +87,6 @@ fun ListsCarousel(
                 }?.index
         }
     }
-
-
-//    // Обновляем выбранный список при прокрутке
-//    LaunchedEffect(centerItemIndex) {
-//        if (centerItemIndex != null && centerItemIndex!! > 0) {
-//            onListSelected(centerItemIndex!! - 1)
-//        }
-//    }
 
     LazyRow(
         state = lazyListState,
