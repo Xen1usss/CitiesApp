@@ -43,10 +43,10 @@ fun ListsCarousel(
     val fullList = listOf<CityList?>(null) + lists
     val itemSize = 64.dp
     val itemSizePx = with(density) { itemSize.toPx() }
-    val horizontalPadding = (screenWidthPx - itemSizePx) / 2f
+
+    val horizontalPadding = (screenWidthPx - itemSizePx) / 3f
     val contentPadding = PaddingValues(horizontal = with(density) { horizontalPadding.toDp() })
 
-    // === НОВАЯ ЛОГИКА ===
     var targetIndex by remember { mutableStateOf<Int?>(null) }
     var isAutoScrolling by remember { mutableStateOf(false) }
 
