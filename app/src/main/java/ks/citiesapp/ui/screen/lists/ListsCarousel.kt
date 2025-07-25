@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
@@ -38,52 +40,57 @@ fun ListsCarousel(
         LocalConfiguration.current.screenWidthDp.dp.toPx()
     }
 
-    val centerItemIndex by remember {
-        derivedStateOf {
-            val center = screenWidthPx / 2f
-            val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
-
-            if (visibleItems.isEmpty()) return@derivedStateOf null
-
-            // Находим ближайший элемент к центру экрана
-            visibleItems.minByOrNull { item ->
-                val itemCenter = item.offset + item.size / 2
-                abs(itemCenter - center)
-            }?.index
-        }
-    }
-
-    LaunchedEffect(lazyListState.isScrollInProgress) {
-        if (!lazyListState.isScrollInProgress) {
-            // Небольшая задержка для стабилизации
-            kotlinx.coroutines.delay(50)
-
-            // Проверяем еще раз, что скролл остановился
-            if (!lazyListState.isScrollInProgress) {
-                // Вычисляем центральный элемент заново
-                val center = screenWidthPx / 2f
-                val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
-
-                if (visibleItems.isNotEmpty()) {
-                    // Находим ближайший элемент к центру
-                    val targetItem = visibleItems.minByOrNull { item ->
-                        val itemCenter = item.offset + item.size / 2
-                        abs(itemCenter - center)
-                    }
-
-                    targetItem?.let {
-                        lazyListState.animateScrollToItem(it.index)
-                    }
-                }
-            }
-        }
-    }
-
     val fullList = listOf<CityList?>(null) + lists
     val itemSize = 64.dp
     val itemSizePx = with(density) { itemSize.toPx() }
     val horizontalPadding = (screenWidthPx - itemSizePx) / 2f
     val contentPadding = PaddingValues(horizontal = with(density) { horizontalPadding.toDp() })
+
+    // === НОВАЯ ЛОГИКА ===
+    var targetIndex by remember { mutableStateOf<Int?>(null) }
+    var isAutoScrolling by remember { mutableStateOf(false) }
+
+    val centerItemIndex by remember {
+        derivedStateOf {
+            if (isAutoScrolling) return@derivedStateOf targetIndex
+
+            val center = screenWidthPx / 2f
+            val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
+
+            visibleItems
+                .minByOrNull { item ->
+                    val itemCenter = item.offset + item.size / 2
+                    abs(itemCenter - center)
+                }?.index
+        }
+    }
+
+    LaunchedEffect(lazyListState.isScrollInProgress) {
+        if (!lazyListState.isScrollInProgress && !isAutoScrolling) {
+            val center = screenWidthPx / 2f
+            val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
+
+            if (visibleItems.isNotEmpty()) {
+                val closestItem = visibleItems.minByOrNull { item ->
+                    val itemCenter = item.offset + item.size / 2
+                    abs(itemCenter - center)
+                }
+
+                closestItem?.let { item ->
+                    targetIndex = item.index
+                    isAutoScrolling = true
+                    lazyListState.animateScrollToItem(item.index)
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(lazyListState.firstVisibleItemIndex) {
+        if (isAutoScrolling) {
+            kotlinx.coroutines.delay(100)
+            isAutoScrolling = false
+        }
+    }
 
     Box {
         LazyRow(
