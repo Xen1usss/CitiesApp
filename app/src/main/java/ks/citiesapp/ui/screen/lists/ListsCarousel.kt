@@ -66,7 +66,8 @@ fun ListsCarousel(
 
 
     // Добавляем null как элемент "добавить"
-    val fullList = listOf<CityList?>(null) + lists
+    //val fullList = listOf<CityList?>(null) + lists
+    val fullList = listOf<CityList?>(null, null) + lists
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -94,8 +95,10 @@ fun ListsCarousel(
     LazyRow(
         state = lazyListState,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = with(density) { horizontalPadding.toDp() }),
-        modifier = Modifier
+        contentPadding = PaddingValues(
+            start = with(density) { (horizontalPadding + itemSizePx / 2).toDp() },
+            end = with(density) { horizontalPadding.toDp() }
+        ),        modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 24.dp),
     ) {
@@ -114,30 +117,61 @@ fun ListsCarousel(
             val animatedScale by animateFloatAsState(scale, label = "scale")
 
             Box(
-                modifier = Modifier.graphicsLayer {
+                modifier = Modifier
+                    .graphicsLayer {
                     scaleX = animatedScale
                     scaleY = animatedScale
                 }
             ) {
-                if (item == null) {
-                    AddNewListCircle(onClick = onAddNewList, size = 64.dp)
-                } else {
-                    val selected = centerItemIndex == index
-                    ListCircleItem(
-                        list = item,
-                        isSelected = selected,
-                        size = 64.dp,
-                        onClick = {
-                            coroutineScope.launch {
-                                lazyListState.animateScrollToItem(index)
-                                onListSelected(index - 1)
+                when {
+                    // Пустая заглушка для проскролла влево
+                    index == 0 -> {
+                        Box(modifier = Modifier.padding(horizontal = 64.dp))
+                    }
+
+                    // Кнопка "добавить"
+                    item == null -> {
+                        AddNewListCircle(onClick = onAddNewList, size = 64.dp)
+                    }
+
+                    else -> {
+                        val selected = centerItemIndex == index
+                        ListCircleItem(
+                            list = item,
+                            isSelected = selected,
+                            size = 64.dp,
+                            onClick = {
+                                coroutineScope.launch {
+                                    lazyListState.animateScrollToItem(index)
+                                    onListSelected(index - 1)
+                                }
+                            },
+                            onLongClick = {
+                                onListLongPressed(index - 1)
                             }
-                        },
-                        onLongClick = {
-                            onListLongPressed(index - 1)
-                        }
-                    )
+                        )
+                    }
                 }
+
+//                if (item == null) {
+//                    AddNewListCircle(onClick = onAddNewList, size = 64.dp)
+//                } else {
+//                    val selected = centerItemIndex == index
+//                    ListCircleItem(
+//                        list = item,
+//                        isSelected = selected,
+//                        size = 64.dp,
+//                        onClick = {
+//                            coroutineScope.launch {
+//                                lazyListState.animateScrollToItem(index)
+//                                onListSelected(index - 1)
+//                            }
+//                        },
+//                        onLongClick = {
+//                            onListLongPressed(index - 1)
+//                        }
+//                    )
+//                }
             }
         }
     }
