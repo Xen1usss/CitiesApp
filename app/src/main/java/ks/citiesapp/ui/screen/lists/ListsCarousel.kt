@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -42,16 +43,14 @@ fun ListsCarousel(
         LocalConfiguration.current.screenWidthDp.dp.toPx()
     }
 
-    // Автоцентровка при остановке скролла
     LaunchedEffect(lazyListState.isScrollInProgress) {
         delay(200) // подождать, пока "инерция" закончится
         if (!lazyListState.isScrollInProgress) {
             val center = screenWidthPx / 2f
             val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
 
-            // Игнорируем "+" по индексу 0
             val centerItem = visibleItems
-                .filter { it.index > 0 }
+                //.filter { it.index > 0 }
                 .minByOrNull {
                     abs((it.offset + it.size / 2) - center)
                 }
@@ -64,23 +63,16 @@ fun ListsCarousel(
         }
     }
 
-
-    // Добавляем null как элемент "добавить"
-    //val fullList = listOf<CityList?>(null) + lists
-    val fullList = listOf<CityList?>(null, null) + lists
+    val fullList = listOf<CityList?>(null) + lists
 
     val coroutineScope = rememberCoroutineScope()
 
-    // Определение центрального индекса — пропускаем кнопку "+"
     val centerItemIndex by remember {
         derivedStateOf {
             val center = screenWidthPx / 2f
             val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
 
-
-            // Ищем ближайший к центру НЕ-нулевой элемент
             visibleItems
-                .filter { it.index > 0 } // Пропускаем "+"
                 .minByOrNull { item ->
                     val itemCenter = item.offset + item.size / 2
                     abs(itemCenter - center)
@@ -91,14 +83,13 @@ fun ListsCarousel(
     val itemSize = 64.dp
     val itemSizePx = with(density) { itemSize.toPx() }
     val horizontalPadding = (screenWidthPx - itemSizePx) / 2f
+    val contentPadding = PaddingValues(horizontal = with(density) { horizontalPadding.toDp() })
 
     LazyRow(
         state = lazyListState,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(
-            start = with(density) { (horizontalPadding + itemSizePx / 2).toDp() },
-            end = with(density) { horizontalPadding.toDp() }
-        ),        modifier = Modifier
+        contentPadding = contentPadding,
+        modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 24.dp),
     ) {
@@ -119,22 +110,18 @@ fun ListsCarousel(
             Box(
                 modifier = Modifier
                     .graphicsLayer {
-                    scaleX = animatedScale
-                    scaleY = animatedScale
-                }
+                        scaleX = animatedScale
+                        scaleY = animatedScale
+                    }
             ) {
                 when {
-                    // Пустая заглушка для проскролла влево
-                    index == 0 -> {
-                        Box(modifier = Modifier.padding(horizontal = 64.dp))
+                    index == 0 && item == null -> {
+                        Box(modifier = Modifier.size(64.dp)) {
+                            AddNewListCircle(onClick = onAddNewList, size = 64.dp)
+                        }
                     }
 
-                    // Кнопка "добавить"
-                    item == null -> {
-                        AddNewListCircle(onClick = onAddNewList, size = 64.dp)
-                    }
-
-                    else -> {
+                    item != null -> {
                         val selected = centerItemIndex == index
                         ListCircleItem(
                             list = item,
@@ -151,27 +138,11 @@ fun ListsCarousel(
                             }
                         )
                     }
-                }
 
-//                if (item == null) {
-//                    AddNewListCircle(onClick = onAddNewList, size = 64.dp)
-//                } else {
-//                    val selected = centerItemIndex == index
-//                    ListCircleItem(
-//                        list = item,
-//                        isSelected = selected,
-//                        size = 64.dp,
-//                        onClick = {
-//                            coroutineScope.launch {
-//                                lazyListState.animateScrollToItem(index)
-//                                onListSelected(index - 1)
-//                            }
-//                        },
-//                        onLongClick = {
-//                            onListLongPressed(index - 1)
-//                        }
-//                    )
-//                }
+                    else -> {
+                        Box(modifier = Modifier.size(64.dp))
+                    }
+                }
             }
         }
     }
