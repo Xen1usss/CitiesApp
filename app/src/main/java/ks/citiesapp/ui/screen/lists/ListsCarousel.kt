@@ -31,7 +31,6 @@ import kotlin.math.abs
 @Composable
 fun ListsCarousel(
     lists: List<CityList>,
-    // selectedListIndex: Int,
     onListSelected: (Int) -> Unit,
     onAddNewList: () -> Unit,
     onListLongPressed: (Int) -> Unit
@@ -88,10 +87,14 @@ fun ListsCarousel(
         }
     }
 
+    val itemSize = 64.dp
+    val itemSizePx = with(density) { itemSize.toPx() }
+    val horizontalPadding = (screenWidthPx - itemSizePx) / 2f
+
     LazyRow(
         state = lazyListState,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 48.dp),
+        contentPadding = PaddingValues(horizontal = with(density) { horizontalPadding.toDp() }),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 24.dp),
