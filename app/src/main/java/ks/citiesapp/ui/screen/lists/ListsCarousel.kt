@@ -59,29 +59,29 @@ fun ListsCarousel(
         }
     }
 
-    LaunchedEffect(lazyListState.isScrollInProgress) {
-        if (lazyListState.isScrollInProgress) {
-            manualSelection = false
-        } else {
-            delay(100)
-
-            if (!manualSelection) {
-                val center = screenWidthPx / 2f
-                val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
-
-                val centerItem = visibleItems
-                    .minByOrNull {
-                        abs((it.offset + it.size / 2) - center)
-                    }
-
-                if (centerItem != null) {
-                    val index = centerItem.index
-                    lazyListState.animateScrollToItem(index)
-                    onListSelected(index - 1)
-                }
-            }
-        }
-    }
+//    LaunchedEffect(lazyListState.isScrollInProgress) {
+//        if (lazyListState.isScrollInProgress) {
+//            manualSelection = false
+//        } else {
+//            delay(100)
+//
+//            if (!manualSelection) {
+//                val center = screenWidthPx / 2f
+//                val visibleItems = lazyListState.layoutInfo.visibleItemsInfo
+//
+//                val centerItem = visibleItems
+//                    .minByOrNull {
+//                        abs((it.offset + it.size / 2) - center)
+//                    }
+//
+//                if (centerItem != null) {
+//                    val index = centerItem.index
+//                    lazyListState.animateScrollToItem(index)
+//                    onListSelected(index - 1)
+//                }
+//            }
+//        }
+//    }
 
     val fullList = listOf<CityList?>(null) + lists
     val itemSize = 64.dp
@@ -133,11 +133,14 @@ fun ListsCarousel(
                                 isSelected = selected,
                                 size = 64.dp,
                                 onClick = {
-                                    manualSelection = true
-                                    coroutineScope.launch {
-                                        lazyListState.animateScrollToItem(index)
-                                        onListSelected(index - 1)
-                                    }
+                                    onListSelected(index - 1)
+                                    // Не запускаем скролл, а сразу выбираем
+                                    //selectItem(index)
+//                                    manualSelection = true
+//                                    coroutineScope.launch {
+//                                        lazyListState.animateScrollToItem(index)
+//                                        onListSelected(index - 1)
+//                                    }
                                 },
                                 onLongClick = {
                                     onListLongPressed(index - 1)
